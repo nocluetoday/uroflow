@@ -37,6 +37,18 @@ Backend will be available at:
 - `http://localhost:8000`
 - OpenAPI docs: `http://localhost:8000/docs`
 
+### 3D Job Endpoints (Phase 1)
+
+The backend now includes asynchronous 3D job endpoints to support future true CFD/FSI workflows:
+
+- `POST /jobs/uroflow3d`: enqueue a 3D simulation job
+- `GET /jobs/{job_id}`: check job state and artifact links
+- `GET /artifacts/{job_id}/field.vtk`: download generated 3D field artifact
+
+Current phase:
+- Outputs a VTK field artifact (`field.vtk`) using a proxy field model.
+- This is an integration bridge for renderer/job plumbing, not a full Navier-Stokes solve yet.
+
 ## Run Locally (Frontend)
 
 From `frontend/`:
@@ -86,6 +98,40 @@ Example response:
   "p_det_used": 50.0
 }
 ```
+
+## 3D Job API Example
+
+Create a job:
+
+```bash
+curl -X POST http://localhost:8000/jobs/uroflow3d \
+  -H "Content-Type: application/json" \
+  -d '{
+    "p_det": 50,
+    "length": 4.5,
+    "volume": 40,
+    "ipp_grade": 2,
+    "mesh_resolution": 28
+  }'
+```
+
+Sample create response:
+
+```json
+{
+  "job_id": "b04e4f2f-6383-4251-b9b1-4e11d6fb78d5",
+  "status": "queued",
+  "created_at": "2026-02-20T23:00:00.000000+00:00"
+}
+```
+
+Then poll status:
+
+```bash
+curl http://localhost:8000/jobs/<job_id>
+```
+
+When `status` is `completed`, use `artifacts` URLs to fetch the VTK field for rendering.
 
 ## Notes
 
