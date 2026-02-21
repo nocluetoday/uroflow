@@ -1,0 +1,18 @@
+# Python cache and virtualenv
+__pycache__/
+*.py[cod]
+venv/
+
+# PyInstaller outputs
+build/
+dist/
+
+# Frontend artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/backend-bin/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/

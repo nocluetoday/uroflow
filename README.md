@@ -21,6 +21,40 @@ Urine flow simulation through the male prostatic urethra using:
 - Python 3.11+ (local backend run)
 - Node.js 18+ and npm (frontend run)
 - Docker Desktop (optional, for containerized backend)
+- macOS (for desktop packaging workflow)
+
+## Standalone macOS App (Desktop)
+
+This repo now includes a desktop shell (Electron) that launches the backend automatically.
+
+### Run Desktop App in Development
+
+From `frontend/`:
+
+```bash
+npm install
+npm run dev:desktop
+```
+
+This starts:
+- Vite renderer on `127.0.0.1:5173`
+- FastAPI backend on `127.0.0.1:8000` (auto-launched by Electron)
+
+### Build a Standalone macOS `.dmg`
+
+1. Build the backend binary (PyInstaller) and package desktop app:
+
+```bash
+cd frontend
+npm run package:mac
+```
+
+2. Output artifact:
+- `frontend/dist/*.dmg`
+
+Notes:
+- Backend binary is created at `frontend/backend-bin/uroflow-backend`.
+- Packaging uses `scripts/build_backend_binary.sh`.
 
 ## Run Locally (Backend)
 
