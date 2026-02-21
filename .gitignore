@@ -11,6 +11,7 @@ dist/
 frontend/node_modules/
 frontend/dist/
 frontend/backend-bin/
+frontend/release/
 
 # OS/editor noise
 .DS_Store

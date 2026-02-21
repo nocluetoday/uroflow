@@ -56,6 +56,28 @@ Notes:
 - Backend binary is created at `frontend/backend-bin/uroflow-backend`.
 - Packaging uses `scripts/build_backend_binary.sh`.
 
+### Fallback: Build Standalone `.app` (if DMG build is killed)
+
+If `electron-builder` is terminated by macOS (`zsh: killed`), use the lighter packaging path:
+
+```bash
+cd frontend
+npm run package:app:mac
+```
+
+Output:
+- `frontend/release/UroFlow-darwin-arm64/UroFlow.app`
+
+Optional zip for distribution:
+
+```bash
+cd frontend
+npm run zip:app:mac
+```
+
+Output:
+- `frontend/release/UroFlow-darwin-arm64/UroFlow.app.zip`
+
 ## Run Locally (Backend)
 
 From project root:

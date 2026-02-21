@@ -11,6 +11,8 @@
     "dev:desktop": "concurrently -k \"npm run dev -- --host 127.0.0.1 --port 5173\" \"wait-on tcp:5173 && ELECTRON_RENDERER_URL=http://127.0.0.1:5173 electron .\"",
     "build:backend:mac": "bash ../scripts/build_backend_binary.sh",
     "package:mac": "npm run build:web && npm run build:backend:mac && electron-builder --mac dmg",
+    "package:app:mac": "npm run build:web && npm run build:backend:mac && electron-packager . UroFlow --platform=darwin --arch=arm64 --overwrite --out=release --prune=true --extra-resource=backend-bin/uroflow-backend",
+    "zip:app:mac": "bash -lc 'APP_DIR=\"release/UroFlow-darwin-arm64/UroFlow.app\"; OUT=\"release/UroFlow-darwin-arm64/UroFlow.app.zip\"; [ -d \"$APP_DIR\" ] || { echo \"Missing $APP_DIR\"; exit 1; }; ditto -c -k --sequesterRsrc --keepParent \"$APP_DIR\" \"$OUT\"; echo \"Created $OUT\"'",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -19,6 +21,7 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@electron/packager": "^19.0.5",
     "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

@@ -10,7 +10,10 @@ if [[ ! -x "$VENV_PY" ]]; then
   exit 1
 fi
 
-"$VENV_PY" -m pip install --upgrade pyinstaller
+if ! "$VENV_PY" -c "import PyInstaller" >/dev/null 2>&1; then
+  echo "Installing PyInstaller into venv..."
+  "$VENV_PY" -m pip install pyinstaller
+fi
 
 cd "$ROOT_DIR"
 rm -rf build dist

@@ -23,11 +23,17 @@ function startBackend() {
   let cwd;
 
   if (isPackaged) {
-    const bundledBackend = path.join(process.resourcesPath, 'backend', 'uroflow-backend');
-    if (!fs.existsSync(bundledBackend)) {
+    const bundledPaths = [
+      path.join(process.resourcesPath, 'backend', 'uroflow-backend'),
+      path.join(process.resourcesPath, 'uroflow-backend'),
+    ];
+    const bundledBackend = bundledPaths.find((candidate) => fs.existsSync(candidate));
+    if (!bundledBackend) {
       dialog.showErrorBox(
         'Backend Not Found',
-        `Bundled backend binary is missing at:\n${bundledBackend}\n\nRun desktop packaging with backend build first.`
+        `Bundled backend binary is missing in expected resources paths:\n${bundledPaths.join(
+          '\n'
+        )}\n\nRun desktop packaging with backend build first.`
       );
       app.quit();
       return;
